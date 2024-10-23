@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 
 class AuthService
 {
@@ -22,10 +23,14 @@ class AuthService
 
         // Generate token
         $token = $user->createToken('auth_token')->plainTextToken;
+        // Update the token's expiration time
+        $user->tokens()->latest()->first()->update([
+            'expires_at' => now()->addDays(7),
+        ]);
 
         return [
             'user' => $user,
-            'access_token' => $token,
+            'token' => $token,
             'token_type' => 'Bearer',
         ];
     }
@@ -44,10 +49,22 @@ class AuthService
         $user = Auth::user();
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        // Update the token's expiration time
+        $user->tokens()->latest()->first()->update([
+            'expires_at' => now()->addDays(7),
+        ]);
+
         return [
             'user' => $user,
             'token' => $token,
-//            'token_type' => 'Bearer',
+            'token_type' => 'Bearer',
         ];
+    }
+
+
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
+        return true;
     }
 }
