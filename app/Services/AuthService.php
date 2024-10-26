@@ -62,9 +62,5 @@ class AuthService
     }
 
 
-    public function logout()
-    {
-        auth()->user()->tokens()->delete();
-        return true;
-    }
+
 }

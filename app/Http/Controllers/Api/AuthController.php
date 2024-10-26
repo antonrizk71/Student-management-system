@@ -6,16 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\AuthService;
+use App\Services\MailService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
     protected $authService;
+    protected $mailService;
 
-    public function __construct(AuthService $authService)
+    public function __construct(AuthService $authService,MailService $mailService)
     {
         $this->authService = $authService;
+        $this->mailService = $mailService;
     }
 
     /**
@@ -27,8 +30,19 @@ class AuthController extends Controller
 
         $result = $this->authService->register($data);
 
+        $userEmail = $result['user']['email'] ?? null;
+        $name = $result['user']['name'] ?? null;
+        // Send the hello mail
+        if ($userEmail) {
+
+            $this->mailService->sendHelloMail($userEmail,$name);
+        }
+
+
         return response()->json($result, 201);
     }
+
+
 
     /**
      * Handle user login.
