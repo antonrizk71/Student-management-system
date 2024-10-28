@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+
 use App\Http\Requests\ForgetPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
@@ -17,6 +18,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Services\AuthService;
+use App\Services\MailService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
 
 class AuthController extends Controller
 {
@@ -75,6 +83,7 @@ class AuthController extends Controller
             'message' => 'Logged out successfully'
         ]);
     }
+
     public function forgot(Hasher $hasher , ForgetPasswordRequest $request)
     {
 
@@ -103,7 +112,7 @@ class AuthController extends Controller
 
             ]);
         }
-        
+
         $user->notify(new PasswordResetNotification ($user , $resetpasswordtoken));
         return new jsonResponse(['message' => 'Password reset link sent on your email.']);
 
@@ -133,5 +142,6 @@ class AuthController extends Controller
         return response()->success($loginResponse , 'Password reset successfully',201);
 
     }
+
 
 }

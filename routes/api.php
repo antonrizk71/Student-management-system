@@ -5,10 +5,6 @@ use App\Http\Controllers\SendMailController;
 use App\Services\MailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\ForgotPasswordController;
-use App\Http\Controllers\Api\ResetPasswordController;
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -41,5 +37,3 @@ Route::get('/test-mail', function (MailService $mailService) {
     $mailService->sendHelloMail('antonrizk71@gmail.com');
     return 'Test email sent!';
 });
-Route::post('/forgot', [AuthController::class, 'forgot']);
-Route::post('/reset', [AuthController::class, 'reset']);
