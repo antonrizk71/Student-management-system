@@ -27,6 +27,10 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
+Route::middleware(['auth:sanctum','checkRole:SuperAdmin'])->get('test', function () {
+    return response()->json(['message' => 'Success']);
+});
+
 
 
 Route::get('/test-mail', function (MailService $mailService) {
