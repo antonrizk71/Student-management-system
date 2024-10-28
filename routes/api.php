@@ -30,6 +30,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 
 
 Route::get('/test-mail', function (MailService $mailService) {
-    $mailService->sendHelloMail('antonrizk71@gmail.com');
+    $mailService->sendHelloMail('antonrizk71@gmail.com','anton');
     return 'Test email sent!';
 });
