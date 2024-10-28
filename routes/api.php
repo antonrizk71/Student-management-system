@@ -37,3 +37,5 @@ Route::get('/test-mail', function (MailService $mailService) {
     $mailService->sendHelloMail('antonrizk71@gmail.com');
     return 'Test email sent!';
 });
+Route::post('/forgot', [AuthController::class, 'forgot']);
+Route::post('/reset', [AuthController::class, 'reset']);
