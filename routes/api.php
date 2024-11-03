@@ -27,14 +27,15 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-
-//This  routes  only for testing
 Route::middleware(['auth:sanctum','checkRole:SuperAdmin'])->get('test', function () {
     return response()->json(['message' => 'Success']);
 });
 
+
+
 Route::get('/test-mail', function (MailService $mailService) {
-    $mailService->sendHelloMail('antonrizk71@gmail.com','anton');
+    $mailService->sendHelloMail('antonrizk71@gmail.com');
     return 'Test email sent!';
 });
-///////////////////
+Route::post('/forgot', [AuthController::class, 'forgot']);
+Route::post('/reset', [AuthController::class, 'reset']);
