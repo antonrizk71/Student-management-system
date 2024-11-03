@@ -80,13 +80,9 @@ class AuthController extends Controller
 
     public function forgot(Hasher $hasher , ForgetPasswordRequest $request)
     {
-
-        //Log::info('Forgot Password Request:', $request->all());
-
-
         $user=($query=User::query());
         $user=$user->where($query->qualifyColumn('email'),$request->input('email'))->first();
-        if(!$user )
+        if(!$user ||!$user->email)
         {
             return response()->error('no record found' , 'incorrect email address provided',404);
 
@@ -107,7 +103,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $user->notify(new PasswordResetNotification ($user , $resetpasswordtoken));
+        //$user->notify(new PasswordResetNotification ($user , $resetpasswordtoken));
         return new jsonResponse(['message' => 'Password reset link sent on your email.']);
 
     }

@@ -10,12 +10,11 @@ class ResetPasswordRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
+    public function authorize()
     {
 
-        $user = auth()->user();
-
-        return $user instanceof User;
+        return !($user=auth()->user()) ||
+            !($user instanceof User);
 
     }
 
@@ -27,7 +26,7 @@ class ResetPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
+            'email' => 'required|exists:user,email',
             'token' => 'required',
             'password' => 'required|min:8|confirmed',
 
