@@ -24,7 +24,7 @@ class SuperAdminSeeder extends Seeder
             'gender' => 'male',
             'nationality' => 'Egyptian',
             'dob' => '2003-10-01',
-            'image_path' => null,
+            'profile_photo_path' => null,
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),
             'created_at' => now(),
